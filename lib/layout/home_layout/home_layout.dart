@@ -43,17 +43,40 @@ class _HomeLayoutState extends State<HomeLayout> {
                   Text(
                     "مرحباً",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
+
+                      fontSize: 50
+                    ),
                   ),
                   TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
                       label: Text("الايميل"),
                       prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(
+                          color: GREEN_COLOR,
+                          width: 1.5,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(
+                          color: GREEN_COLOR,
+                          width: 1.5,
+                        ),
+                      ),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    validator: (value) {},
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Email";
+                      } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                        return "Please Enter a Valid Email";
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       print(value);
                     },
@@ -67,22 +90,36 @@ class _HomeLayoutState extends State<HomeLayout> {
                     decoration: InputDecoration(
                       label: Text("كلمة المرور"),
                       suffixIcon: IconButton(
-
                           onPressed: () {
-                            isPassword=!isPassword;
+                            isPassword = !isPassword;
                             setState(() {
                               print(isPassword);
                             });
                           },
-                          icon: isPassword? Icon(Icons.remove_red_eye_rounded):
-                          Icon(Icons.remove_red_eye_outlined)
-
+                          icon: isPassword
+                              ? Icon(Icons.remove_red_eye_rounded)
+                              : Icon(Icons.remove_red_eye_outlined)),
+                      prefixIcon:
+                          isPassword ? Icon(Icons.lock) : Icon(Icons.lock_open),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(
+                          color: GREEN_COLOR,
+                          width: 1.5,
+                        ),
                       ),
-                      prefixIcon:isPassword? Icon(Icons.lock):Icon(Icons.lock_open),
-                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(
+                          color: GREEN_COLOR,
+                          width: 1.5,
+                        ),
+                      ),
                     ),
                     keyboardType: TextInputType.visiblePassword,
-                    validator: (value) {},
+                    validator: (value) {
+                      print(value);
+                    },
                     onChanged: (value) {
                       print(value);
                     },
@@ -97,9 +134,11 @@ class _HomeLayoutState extends State<HomeLayout> {
                           foregroundColor: WHITE_COLORS,
                           backgroundColor: Buttom_COLOR, // foreground
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {}
+                        },
                         child: Text(
-                          "دخـــل ",
+                          "دخـــول ",
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1
